@@ -1,0 +1,78 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	{{ parent() }}
+	Gestion des livre
+{% endblock %}
+
+{% block h1 %}Gestion des livres ({{ produits|length }})
+{% endblock %}
+
+{% block body %}
+	<a class="btn btn-dark mt-2" href="{{ path('produit_ajouter') }}">Ajouter</a>
+	{% for message in app.flashes('success') %}
+		<div class="col-md-6 mx-auto text-center alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% if produits %}
+		{# <pre>{{ dump(produits) }}</pre> #}
+<table class="table text-center mt-2 shadow-lg mb-5">
+
+			<thead class="bg-dark text-white">
+				<tr>
+					<th>ID</th>
+					<th>Titre</th>
+					<th>Prix (€)</th>
+					<th>Description</th>
+					<th>Catégorie</th>
+					<th>Etat</th>
+					<th>Date de création</th>
+					<th>Détails</th>
+					<th>Modifier</th>
+					<th>Supprimer</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for produit in produits %}
+					<tr>
+						<td>{{ produit.id }}</td>
+						<td>{{ produit.titre|capitalize }}</td>
+						<td>{{ produit.prix }}</td>
+						<td>
+							{% if produit.description %}
+								{% if produit.description|length > 30 %}
+									{{ produit.description|slice(0,27) }}...
+								{% else %}
+									{{ produit.description }}
+								{% endif %}
+							{% else %}
+								<span class="text-danger">N.R</span>
+							{% endif %}
+						</td>
+						<td>{{ produit.categorie.nom }}</td>
+						<td>
+							{% if produit.marque %}
+								{{ produit.marque.nom }}
+							{% else %}
+								<span class="text-danger">N.R</span>
+							{% endif %}
+						</td>
+						<td>{{ produit.createdAt|date('d/m/Y H:i') }}</td>
+						<td>
+							<a href="{{ path( 'produit_details' , {'id' : produit.id } ) }}" class="btn btn-primary">afficher</a>
+						</td>
+				</td>
+				<td>
+					<a href="{{ path('produit_modifier', {'id' : produit.id}) }}" class="btn btn-secondary">Modifier</a>
+
+				</td>
+				<td>
+					<a href="{{ path('produit_supprimer', {'id' : produit.id }) }}" class="btn btn-danger" onclick="return confirm('voulez-vous vraiment supprimer ce produit ?')">Supprimer</a>
+				</td>
+</tr>
+
+			</tbody>
+		</tr>
+	{% endfor %}
+</tbody></table>{% else %}<h4 class="text-danger text-center">Aucun résultat</h4>{% endif %}{% endblock %}

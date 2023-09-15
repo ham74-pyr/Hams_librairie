@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} | Ajouter un livre{% endblock %}
+
+{% block h1 %}Ajouter un livre{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-dark mb-3" href="{{ path('produit_afficher') }}">Retour</a>
+
+   <div class="shadow p-5">
+    {{ form_start(formProduit) }}
+    
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(formProduit.titre) }}
+            </div>
+
+            <div class="col-md-6">
+                {{ form_row(formProduit.prix) }}
+            </div>
+        </div>
+
+        {{ form_help(formProduit.description)}}
+        {{ form_widget(formProduit.description)}}
+        {{ form_label(formProduit.description)}}
+        {{ form_errors(formProduit.description)}}    
+        {{ form_rest(formProduit) }}
+        <input type="submit" value="Ajouter" class="btn btn-success col-12 mx-auto">
+    {{ form_end(formProduit) }}
+</div>
+
+{% endblock %}
